@@ -1,0 +1,15 @@
+<html>
+<head>isNaN test</head>
+<body><br/ ></body>
+  <script>
+    document.write("Type of NAN : " + typeof NaN + "<br/>");
+    document.write("Type of 5/0 : " + typeof (5/0) + "<br/>");
+    document.write("Type of 0/0 : " + typeof (0/0) + "<br/>");
+    document.write("Type of Infinity/Infinity : " + typeof (Infinity/Infinity) + "<br/>");
+    document.write("=============================== <br/>");
+    document.write("isNaN(NaN) : " + isNaN(NaN) + "<br/>");
+    document.write("isNaN(5/0) : " + isNaN(5/0) + "<br/>");          // Infinity
+    document.write("isNaN(0/0) : " + isNaN(0/0) + "<br/>");          // NaN
+    document.write("isNaN(Infinity/Infinity) : " + isNaN(Infinity/Infinity) + "<br/>");          // NaN   
+  </script>   
+</html>
