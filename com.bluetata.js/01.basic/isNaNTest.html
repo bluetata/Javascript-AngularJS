@@ -1,5 +1,5 @@
 <html>
-<head>isNaN test</head>
+<head>NaN/isNaN test</head>
 <body><br/ ></body>
   <script>
     document.write("Type of NAN : " + typeof NaN + "<br/>");
@@ -8,8 +8,18 @@
     document.write("Type of Infinity/Infinity : " + typeof (Infinity/Infinity) + "<br/>");
     document.write("=============================== <br/>");
     document.write("isNaN(NaN) : " + isNaN(NaN) + "<br/>");
-    document.write("isNaN(5/0) : " + isNaN(5/0) + "<br/>");          // Infinity
-    document.write("isNaN(0/0) : " + isNaN(0/0) + "<br/>");          // NaN
+    document.write("isNaN(5/0) : " + isNaN(5/0) + "<br/>");               // Infinity
+    document.write("isNaN(0/0) : " + isNaN(0/0) + "<br/>");               // NaN
+    
+    
+    document.write("NaN === NaN : " + (NaN === NaN) + "<br/>");             // false
+    
+    document.write("isNaN(NaN + 10) : " + isNaN(NaN + 10) + "<br/>");       // true
+    document.write("isNaN(NaN - 10) : " + isNaN(NaN - 10) + "<br/>");       // true
+    document.write("isNaN(NaN * 10) : " + isNaN(NaN * 10) + "<br/>");       // true
+    document.write("isNaN(0/NaN) : " + isNaN(0/NaN) + "<br/>");             // true
+    document.write("isNaN(NaN/1) : " + isNaN(NaN/1) + "<br/>");             // true
+
     document.write("isNaN(Infinity/Infinity) : " + isNaN(Infinity/Infinity) + "<br/>");          // NaN   
   </script>   
 </html>
