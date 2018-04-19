@@ -2,6 +2,19 @@
 <head>NaN/isNaN test</head>
 <body><br/ ></body>
   <script>
+
+    document.write([] * 5 + "<br/>");
+    document.write(null - 5 + "<br/>");
+    document.write(true * 5 + "<br/>");
+    document.write('' * 5 + "<br/>");
+    document.write(undefined - 5 + "<br/>");
+    document.write("================================<br/>");
+    document.write(Math.sqrt(-1) + "<br/>");
+    document.write(0/0 + "<br/>");
+    document.write(5/0 + "<br/>");
+    document.write(Infinity/Infinity + "<br/>");
+    document.write(0*Infinity + "<br/>");
+    document.write(0/Infinity + "<br/>");
     document.write("Type of NAN : " + typeof NaN + "<br/>");
     document.write("Type of 5/0 : " + typeof (5/0) + "<br/>");
     document.write("Type of 0/0 : " + typeof (0/0) + "<br/>");
@@ -10,16 +23,16 @@
     document.write("isNaN(NaN) : " + isNaN(NaN) + "<br/>");
     document.write("isNaN(5/0) : " + isNaN(5/0) + "<br/>");               // Infinity
     document.write("isNaN(0/0) : " + isNaN(0/0) + "<br/>");               // NaN
-    
-    
+
+
     document.write("NaN === NaN : " + (NaN === NaN) + "<br/>");             // false
-    
+
     document.write("isNaN(NaN + 10) : " + isNaN(NaN + 10) + "<br/>");       // true
     document.write("isNaN(NaN - 10) : " + isNaN(NaN - 10) + "<br/>");       // true
     document.write("isNaN(NaN * 10) : " + isNaN(NaN * 10) + "<br/>");       // true
     document.write("isNaN(0/NaN) : " + isNaN(0/NaN) + "<br/>");             // true
     document.write("isNaN(NaN/1) : " + isNaN(NaN/1) + "<br/>");             // true
 
-    document.write("isNaN(Infinity/Infinity) : " + isNaN(Infinity/Infinity) + "<br/>");          // NaN   
-  </script>   
+    document.write("isNaN(Infinity/Infinity) : " + isNaN(Infinity/Infinity) + "<br/>");          // NaN
+  </script>
 </html>
