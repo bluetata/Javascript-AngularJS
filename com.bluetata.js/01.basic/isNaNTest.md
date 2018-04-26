@@ -16,11 +16,77 @@ NaN的产生与isNaN的产生
 
 1. 计算失败时:
 
-**isNaN的产生**: 与 JavaScript 中其他的值不同, NaN不能通过相等操作符（== 和 ===）来判断, 因为 NaN == NaN 和 NaN === NaN 都会返回 false. 因此, isNaN 的产生就很有必要了.
+在对于未定义的运算(Infinity相关)或错误数学公式计算时(对负数进行开偶次方; 对负数进行对数运算; 对小于-1或大于+1的数进行反正弦或反余弦运算), 得到的计算结果为 NaN
 
-**小结**: 值得注意的地方: 在计算时, 通常在多步复杂计算时, 任何涉及与NaN的计算, 返回结果既为NaN, 另外, NaN不会与任何值相等, 即使是本身自己.
+```JavaScript
+document.write(Math.sqrt(-1));      // 结果为 NaN  
+document.write(0/0);                // 结果为 NaN  
+document.write(5/0);                // 结果为 Infinity  
+document.write(Infinity/Infinity)   // 结果为 NaN  
+document.write(0/Infinity);         // 结果为 0  
+document.write(0*Infinity);         // 结果为 NaN  
+```
 
-怎么理解NaN（NaN的本质）
+在进行对 加法(+) 以外的四则运算时, 即 对带有减号 (-) 乘号 (`*`) 或 除号 (/) 运算符时, JavaScript引擎会先尝试将待计算单项转换成Number类型(使用 Number(x) 做转换), 如果转换失败, 整个计算结果即为 NaN
+
+```JavaScript
+10 - '5a'           // NaN  
+'5a' * 5            // NaN  
+'10' / '5a';        // NaN  
+
+undefined - 5;      // NaN  Number(undefined) == NaN  
+'' * 5              // 0    Number('') == 0  
+true * 5            // 5    Number(true) == 1  
+[] * 5              // 0    Number([]) == 0  
+null - 5;           // -5   Number(null) == 0  
+```
+
+对于四则运算 加法(+)时, JavaScript引擎不会对单项先进行Number强制转换, 如果加号(+)两端单项 有任意一个是字符串 js会进行拼接操作, 只有加号(+) 两端单项都是数字Number类型的时, 才会进行相加计算.  
+
+```JavaScript
+document.write(1 + 2 + '3'         + "<br/>");    // 计算结果为 33  
+document.write(1 + '2' + 3         + "<br/>");    // 计算结果为 123  
+document.write(1 + undefined + 3   + "<br/>");    // 计算结果为 NaN  
+document.write(1 + '' + 3          + "<br/>");    // 计算结果为 13
+```
+
+[2]   解析数字失败时, 任何一个字符串当不能被 parseInt, parseFloat 或 Number 成功转换时, 就返回 NaN, 表示该字符串无法被识别为Number类型, 这是一个异常状态, 并不是一个确切的值 :
+当被转换值中不包含任何数字时, 使用parseInt, parseFloat 或 Number进行转换时, 直接返回 NaN
+
+```JavaScript
+parseInt('bluetata')     // NaN  
+parseFloat('bluetata')   // NaN  
+Number('bluetata')       // NaN
+```
+
+当被转换值中含任何数字时, parseInt 和 parseFloat 会将被转换值中第一个无效字符之前的 数字字符串进行转换; Number 会将被转换值当做一个整体来转换, 这样对于Number()来说, 即使被转换值中包含数字, 也不会将数字转换出来.
+
+```JavaScript
+parseInt('123abc')         // 转换结果 123  
+parseInt('123abc45')       // 转换结果 123  
+parseInt('abc123def')      // 转换结果 NaN  
+parseFloat('123.45abc')    // 转换结果 123.45  
+parseFloat('123abc')       // 转换结果 123  
+Number('123abc')           // 转换结果 NaN  
+```
+
+[3]   与 NaN 进行计算时:
+任何涉及与NaN的计算, 返回结果既为NaN
+```JavaScript
+document.write("NaN === NaN     : " + (NaN === NaN)   + "<br/>");             // false  
+
+document.write("isNaN(NaN + 10) : " + isNaN(NaN + 10) + "<br/>");             // true  
+document.write("isNaN(NaN - 10) : " + isNaN(NaN - 10) + "<br/>");             // true  
+document.write("isNaN(NaN * 10) : " + isNaN(NaN * 10) + "<br/>");             // true  
+document.write("isNaN(0/NaN)    : " + isNaN(0/NaN)    + "<br/>");             // true  
+document.write("isNaN(NaN/1)    : " + isNaN(NaN/1)    + "<br/>");             // true  
+```
+
+
+深入理解isNaN
+isNaN:  NaN不能通过相等操作符（== 和 ===）来判断, 因为 NaN 不与任何值相等, 即使是NaN自己本身. 因此, 对于如何判断一个值是否为NaN, 函数isNaN 的产生就很有必要了.
+
+isNaN的判断方法可以看做为：
 --------------------
 可以把isNaN看做：
 
@@ -38,7 +104,8 @@ function reallyIsNaN(x){
     return x !== x
 }
 ```
-test
+
+为了方便理解上述的判断方法, 以下举例说明了 其利用!==判断式的相关结果：
 ```JavaScript
 var xVar;               // undefined
 xVar !== xVar           // false
@@ -48,6 +115,11 @@ xVar !== xVar           // false
 
 var xVar = NaN
 xVar !== xVar           // true
+```
+
+在ECMAScript6之后, 判断一个值是否为NaN, 可以利用Number提供的isNaN进行判断
+```JavaScript
+Number.isNaN(x)
 ```
 
 一些特殊的NaN判断结果
@@ -78,9 +150,6 @@ isNaN("bluetata")           // true: "blabla"不能转换成数值
 isNaN(new Date());                // false 时间会被转换成毫秒 + 1
 isNaN(new Date().toString());     // true
 ```
-
-**总结**:在上面举例中可以看到,在js中
-
 
 
 
